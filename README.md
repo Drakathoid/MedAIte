@@ -43,7 +43,7 @@ Tests cover constraint preservation, quoted/code content, opt-in removals, answe
 
 ## Publish with GitHub Pages
 
-The portable webpage is in `dist/`. In this repository's **Settings → Pages**, choose **GitHub Actions** as the build and deployment source. The included workflow checks the JavaScript, runs the tests and publishes `dist/` after a push to `main`, or when run manually. GitHub Pages must be enabled in repository settings before deployment can succeed.
+The portable webpage is in `dist/`. In this repository's **Settings → Pages**, choose **GitHub Actions** as the build and deployment source. The included workflow checks the JavaScript and runs the tests after each push to `main`. Once Pages is enabled, run **Actions → Check and publish medAIte → Run workflow** to publish `dist/`. To also publish on every push, set the repository Actions variable `PAGES_ENABLED` to `true`. GitHub Pages must be enabled before manual or automatic publication can succeed.
 
 The separately hosted preview is private by default. Repository visibility and preview visibility are independent.
 
