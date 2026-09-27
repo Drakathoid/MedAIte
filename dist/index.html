@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#133b33">
+  <meta name="description" content="Turn a rough request into a clearer AI prompt. Clarify missing details, review suggested cuts, and keep control of your intent.">
+  <title>medAIte — Make your intent clear</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 40'%3E%3Crect width='40' height='40' rx='10' fill='%23133b33'/%3E%3Cpath d='M9 28V13h6l5 8 5-8h6v15h-5v-8l-6 9-6-9v8z' fill='%23d2f593'/%3E%3C/svg%3E">
+  <link rel="stylesheet" href="./styles.css">
+  <script type="module" src="./app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#request">Skip to your request</a>
+  <header class="site-header">
+    <a class="brand" href="./" aria-label="medAIte home">med<span>AI</span>te<span class="brand-period">.</span></a>
+    <div class="header-note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="5" y="10" width="14" height="11" rx="3"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3"/></svg><span>In your browser. In your control.</span></div>
+    <a class="quiet-link" href="#how-it-works">How it works <span aria-hidden="true">↗</span></a>
+  </header>
+
+  <main>
+    <section class="intro" aria-labelledby="page-title">
+      <div><p class="eyebrow">LESS GUESSWORK. MORE INTENT.</p><h1 id="page-title">Give your idea a <span>clearer voice.</span></h1><p class="intro-copy">Say what you need. Shape what the AI understands.</p></div>
+      <div class="flow-label" aria-hidden="true"><span>Your ask</span><svg viewBox="0 0 60 12"><path d="M1 6h55m-5-5 5 5-5 5" fill="none" stroke="currentColor"/></svg><strong>Your intent</strong></div>
+    </section>
+
+    <div class="workspace">
+      <section class="panel input-panel" aria-labelledby="input-title">
+        <div class="panel-heading"><div class="panel-title"><span class="step">01</span><h2 id="input-title">Start with your ask</h2></div><button id="reset" class="text-button" type="button">Reset</button></div>
+        <form id="prompt-form">
+          <label class="field-label" for="request">What would you like the AI to do?</label>
+          <textarea id="request" class="request-input" maxlength="12000" required placeholder="Put the rough version here. For example: Help me write an email to my team about a delayed project. I want it to be clear but not sound like I'm blaming anyone." aria-describedby="input-help input-error"></textarea>
+          <div class="input-meta"><span id="input-help">Rough thoughts are a good starting point.</span><span id="character-count">0 / 12,000</span></div>
+          <p id="input-error" class="error-message" role="alert" hidden></p>
+          <div class="examples"><span class="minor-label">TRY AN EXAMPLE</span><div class="example-buttons"><button type="button" data-example="writing">Write an email</button><button type="button" data-example="coding">Build a webpage</button><button type="button" data-example="image">Edit an image</button><button type="button" data-example="research">Research a topic</button></div></div>
+          <details class="context-details"><summary>Add context <span class="optional">optional</span><span class="plus" aria-hidden="true">+</span></summary>
+            <div class="context-fields">
+              <label>Who is this for?<input id="audience" maxlength="600" placeholder="e.g. My team; a complete beginner"></label>
+              <label>What would a good result achieve?<input id="outcome" maxlength="1000" placeholder="e.g. Explain the delay and agree a new deadline"></label>
+              <label>What must stay, or be avoided?<textarea id="constraints" rows="2" maxlength="1500" placeholder="e.g. Keep the existing layout; avoid jargon"></textarea></label>
+              <div class="field-pair"><label>Output format<select id="format"><option value="">Let the request decide</option><option>A short paragraph</option><option>Bullet points</option><option>A comparison table</option><option>A step-by-step guide</option><option>An email draft</option><option>Working code</option><option>An image prompt</option></select></label><label>Tone<select id="tone"><option value="">Keep my intent</option><option>Clear and direct</option><option>Friendly</option><option>Professional</option><option>Technical</option><option>Creative</option></select></label></div>
+            </div>
+          </details>
+          <button class="primary-button" id="refine" type="submit"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><path d="m12 3 2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5z"/></svg><span>Refine my prompt</span><span class="button-arrow" aria-hidden="true">↗</span></button>
+          <p class="keyboard-hint">Ctrl / ⌘ + Enter to refine</p>
+        </form>
+      </section>
+
+      <section class="panel output-panel" aria-labelledby="output-title" id="result-panel">
+        <div class="panel-heading"><div class="panel-title"><span class="step">02</span><h2 id="output-title">Make your intent clear</h2></div><span class="mode-badge">Guided refinement</span></div>
+        <div id="empty-state" class="empty-state">
+          <div class="intent-mark" aria-hidden="true"><span>ask</span><span class="mark-divider"></span><strong>intent</strong></div>
+          <h3>The same idea.<br>Less room for interpretation.</h3><p>Your refined prompt will appear here, along with questions worth answering and wording you could trim.</p>
+          <div class="empty-checks"><span><b aria-hidden="true">✓</b> Preserve what matters</span><span><b aria-hidden="true">✓</b> Make expectations explicit</span><span><b aria-hidden="true">✓</b> Review every suggested cut</span></div>
+        </div>
+        <div id="result" hidden>
+          <div class="result-summary"><span id="task-label" class="task-badge"></span><span id="gap-count"></span></div>
+          <p id="stale-notice" class="notice" hidden>Your request has changed. Refine again to update this draft.</p>
+          <div class="result-tabs" role="tablist" aria-label="Prompt results"><button id="prompt-tab" class="active" role="tab" aria-selected="true" aria-controls="prompt-view" type="button">Refined prompt</button><button id="changes-tab" role="tab" aria-selected="false" aria-controls="changes-view" tabindex="-1" type="button">What changed <span id="change-count"></span></button></div>
+          <div id="prompt-view" role="tabpanel" aria-labelledby="prompt-tab"><label class="sr-only" for="output">Refined prompt, editable</label><textarea id="output" class="output-text" spellcheck="false"></textarea><div class="output-footer"><span id="output-meta">You can edit this draft.</span><button id="copy" class="copy-button" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" aria-hidden="true"><rect x="8" y="8" width="12" height="13" rx="2"/><path d="M15 8V5a2 2 0 0 0-2-2H5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h3"/></svg><span>Copy prompt</span></button></div></div>
+          <div id="changes-view" role="tabpanel" aria-labelledby="changes-tab" tabindex="0" hidden><p class="changes-intro">Your original ask stays intact unless you choose a suggested cut below.</p><ul id="change-list" class="change-list"></ul></div>
+          <p class="result-note">A clearer brief helps; it cannot guarantee an AI's answer.</p>
+        </div>
+      </section>
+    </div>
+
+    <section id="guidance" class="guidance" hidden aria-labelledby="guidance-title">
+      <div class="guidance-heading"><div><p class="eyebrow">A LITTLE DETAIL GOES A LONG WAY</p><h2 id="guidance-title">Close the gaps.</h2><p>Answer what matters. Leave the rest for the AI to ask.</p></div><span id="answered-count" class="answer-count"></span></div>
+      <div id="conflict-list" class="conflicts"></div>
+      <div id="questions" class="question-grid"></div>
+      <div class="trim-section" id="trim-section" hidden><div class="trim-heading"><h3>A little less can say more.</h3><p>Optional cuts. Review the quoted wording before removing it.</p></div><div id="trim-list" class="trim-list"></div></div>
+      <div class="guidance-actions"><label class="missing-choice" for="missing-mode">Unanswered questions<select id="missing-mode"><option value="ask">Ask the AI to clarify if needed</option><option value="omit">Keep them out of the prompt</option></select></label><button id="apply-details" type="button" class="secondary-button">Update my prompt <span aria-hidden="true">↗</span></button></div><p id="guidance-status" class="guidance-status">Nothing is assumed on your behalf.</p>
+    </section>
+
+    <details class="how-it-works" id="how-it-works"><summary>What happens to my prompt? <span aria-hidden="true">+</span></summary><div><p>medAIte uses local, rule-based checks to organise your request, spot common gaps and suggest optional cuts. It is not calling an AI model, and it may miss nuance or unusual requirements.</p><p>Your prompt stays in this browser tab. It is not sent to an AI service or saved by this page. Copy it into the AI tool you want to use. Refreshing or closing this tab clears your work.</p><p>Your original requirements are kept. Added details are labelled, and unanswered questions remain questions. You decide what to remove.</p></div></details>
+    <footer><a class="brand footer-brand" href="./" aria-label="medAIte home">med<span>AI</span>te.</a><span>A bridge between what you say and what you mean.</span><span class="footer-mode">No account. No API key.</span></footer>
+  </main>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <div id="status" class="sr-only" role="status" aria-live="polite"></div>
+  <noscript><p class="notice">Enable JavaScript to refine prompts. All analysis runs in your browser.</p></noscript>
+</body>
+</html>
